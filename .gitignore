@@ -1,0 +1,4 @@
+*.swp
+.sonar/
+coverage/
+node_modules/
