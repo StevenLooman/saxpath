@@ -1,9 +1,9 @@
-var assert = require('assert');
+var assert       = require('assert');
 var TestRecorder = require('./recorder');
 
-var fs  = require('fs');
-var sax = require('sax');
-var xps = require('..');
+var fs      = require('fs');
+var sax     = require('sax');
+var saxpath = require('..');
 
 
 describe('SaXPath', function() {
@@ -11,7 +11,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '/bookstore/book', recorder);
+        var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -27,7 +27,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]', recorder);
+        var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -44,7 +44,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '/bookstore/title', recorder);
+        var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/title', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -59,8 +59,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '//book', recorder);
-        console.log(streamer);
+        var streamer   = new saxpath.SaXPath(saxParser, '//book', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -76,8 +75,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '//book[@category="COOKING"]', recorder);
-        console.log(streamer);
+        var streamer   = new saxpath.SaXPath(saxParser, '//book[@category="COOKING"]', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -85,6 +83,7 @@ describe('SaXPath', function() {
         function testNodesRecorded() {
             assert.ok(recorder.tape.length > 0);
             assert.equal(recorder.tape[0].name, 'book');
+            assert.deepEqual(recorder.tape[0].attributes, { category: 'COOKING' });
             done();
         }
     });
@@ -93,8 +92,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '//book/title', recorder);
-        console.log(streamer);
+        var streamer   = new saxpath.SaXPath(saxParser, '//book/title', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
@@ -110,8 +108,7 @@ describe('SaXPath', function() {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new xps.SaXPath(saxParser, '//book//title', recorder);
-        console.log(streamer);
+        var streamer   = new saxpath.SaXPath(saxParser, '//book//title', recorder);
 
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);

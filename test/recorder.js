@@ -1,32 +1,36 @@
 function TestRecorder() {
     this.tape = [];
 
-    this.isRecording = false;
+    this.tapeOn = false;
 }
 
 
 TestRecorder.prototype.start = function() {
-    this.isRecording = true;
+    this.tapeOn = true;
 };
 
 TestRecorder.prototype.stop = function() {
-    this.isRecording = false;
+    this.tapeOn = false;
+};
+
+TestRecorder.prototype.isRecording = function() {
+    return this.tapeOn;
 };
 
 TestRecorder.prototype.onOpenTag = function(node) {
-    if (this.isRecording) {
+    if (this.tapeOn) {
         this.tape.push(node);
     }
 };
 
 TestRecorder.prototype.onCloseTag = function(tag) {
-    if (this.isRecording) {
+    if (this.tapeOn) {
         this.tape.push(tag);
     }
 };
 
 TestRecorder.prototype.onText = function (text) {
-    if (this.isRecording) {
+    if (this.tapeOn) {
         this.tape.push(text);
     }
 };
