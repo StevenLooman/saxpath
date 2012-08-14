@@ -89,6 +89,23 @@ describe('SaXPath', function() {
         }
     });
 
+    it('should match //book/title', function(done) {
+        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var recorder   = new TestRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new xps.SaXPath(saxParser, '//book/title', recorder);
+        console.log(streamer);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.ok(recorder.tape.length > 0);
+            assert.equal(recorder.tape[0].name, 'title');
+            done();
+        }
+    });
+
     it('should match //book//title', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TestRecorder();
