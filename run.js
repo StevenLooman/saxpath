@@ -9,7 +9,8 @@ var filename = 'test/bookstore.xml';
 function main() {
     var saxParser = sax.createStream(true);
 //    var streamer  = new xps.SaXPath(saxParser, '/bookstore/book');
-    var streamer  = new xps.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]');
+//    var streamer  = new xps.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]');
+    var streamer  = new xps.SaXPath(saxParser, '//book');
 
     var fileStream = fs.createReadStream(filename);
     fileStream.pipe(saxParser);
