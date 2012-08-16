@@ -6,9 +6,6 @@ var sax     = require('sax');
 var saxpath = require('..');
 
 
-var eyes = require('eyes'); // XXX: DEBUG
-
-
 describe('SaXPath', function() {
     it('should match /bookstore', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');

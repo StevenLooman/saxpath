@@ -1,4 +1,3 @@
-// XXX: TODO: rename to TapeRecorder
 function TapeRecorder() {
     this.box = [];
     this.tape = null;
@@ -8,7 +7,6 @@ function TapeRecorder() {
 
 
 TapeRecorder.prototype.start = function() {
-    console.log('o_o TapeRecorder.start');
     if (this.tapeOn) {
         throw new Error("Tape is already on");
     }
@@ -20,7 +18,6 @@ TapeRecorder.prototype.start = function() {
 };
 
 TapeRecorder.prototype.stop = function() {
-    console.log('o_o TapeRecorder.stop');
     this.tapeOn = false;
 
     this.tape.push({ stop: true });
