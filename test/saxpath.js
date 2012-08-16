@@ -1,15 +1,38 @@
 var assert       = require('assert');
-var TestRecorder = require('./recorder');
+var TapeRecorder = require('./tape_recorder');
 
 var fs      = require('fs');
 var sax     = require('sax');
 var saxpath = require('..');
 
 
+var eyes = require('eyes'); // XXX: DEBUG
+
+
 describe('SaXPath', function() {
+    it('should match /bookstore', function(done) {
+        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '/bookstore', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'bookstore');
+
+            done();
+        }
+    });
+
     it('should match /bookstore/book', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book', recorder);
 
@@ -17,15 +40,23 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'book');
+            assert.equal(recorder.box.length, 4);
+
+            var tape;
+            var i;
+            for (i = 0; i < 4; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'book');
+            }
+
             done();
         }
     });
 
     it('should match /bookstore/book[@category="COOKING"]', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]', recorder);
 
@@ -33,16 +64,23 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'book');
-            assert.deepEqual(recorder.tape[0].attributes, { category: 'COOKING' });
+            assert.equal(recorder.box.length, 1);
+
+            var tape;
+            var i;
+            for (i = 0; i < 1; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'book');
+            }
+
             done();
         }
     });
 
     it('should not match /bookstore/title', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/title', recorder);
 
@@ -50,14 +88,14 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length === 0);
+            assert.equal(recorder.box.length, 0);
             done();
         }
     });
 
     it('should match //book', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book', recorder);
 
@@ -65,15 +103,23 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'book');
+            assert.equal(recorder.box.length, 4);
+
+            var tape;
+            var i;
+            for (i = 0; i < 4; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'book');
+            }
+
             done();
         }
     });
 
     it('should match //book[@category="COOKING"]', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book[@category="COOKING"]', recorder);
 
@@ -81,16 +127,20 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'book');
-            assert.deepEqual(recorder.tape[0].attributes, { category: 'COOKING' });
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'book');
+            assert.deepEqual(tape[1].openTag.attributes, { category: 'COOKING' });
+
             done();
         }
     });
 
     it('should match //book/title', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book/title', recorder);
 
@@ -98,15 +148,23 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'title');
+            assert.equal(recorder.box.length, 4);
+
+            var tape;
+            var i;
+            for (i = 0; i < 4; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'title');
+            }
+
             done();
         }
     });
 
     it('should match //book//title', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
-        var recorder   = new TestRecorder();
+        var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book//title', recorder);
 
@@ -114,8 +172,16 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.ok(recorder.tape.length > 0);
-            assert.equal(recorder.tape[0].name, 'title');
+            assert.equal(recorder.box.length, 4);
+
+            var tape;
+            var i;
+            for (i = 0; i < 4; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'title');
+            }
+
             done();
         }
     });
