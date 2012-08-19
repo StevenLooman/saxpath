@@ -6,7 +6,7 @@ function TapeRecorder() {
 }
 
 
-TapeRecorder.prototype.start = function() {
+TapeRecorder.prototype.start = function(state) {
     if (this.tapeOn) {
         throw new Error("Tape is already on");
     }
@@ -17,16 +17,12 @@ TapeRecorder.prototype.start = function() {
     this.tape.push({ start: true });
 };
 
-TapeRecorder.prototype.stop = function() {
+TapeRecorder.prototype.stop = function(state) {
     this.tapeOn = false;
 
     this.tape.push({ stop: true });
     this.box.push(this.tape);
     this.tape = null;
-};
-
-TapeRecorder.prototype.isRecording = function() {
-    return this.tapeOn;
 };
 
 TapeRecorder.prototype.onOpenTag = function(node) {

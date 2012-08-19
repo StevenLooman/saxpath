@@ -182,4 +182,28 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should match all nested nodes in //node', function(done) {
+        var fileStream = fs.createReadStream('test/inception.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//node', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 3);
+
+            var tape;
+            var i;
+            for (i = 0; i < 3; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'node');
+            }
+
+            done();
+        }
+    });
 });
