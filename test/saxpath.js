@@ -206,4 +206,28 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should be able to match nodes with namespaces in //test:node', function(done) {
+        var fileStream = fs.createReadStream('test/namespace.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//test:node', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape;
+            var i;
+            for (i = 0; i < 1; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'test:node');
+            }
+
+            done();
+        }
+    });
 });
