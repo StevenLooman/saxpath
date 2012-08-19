@@ -1,45 +1,53 @@
 function TapeRecorder() {
     this.box = [];
-    this.tape = null;
-
-    this.tapeOn = false;
+    this.deck = {};
 }
 
 
 TapeRecorder.prototype.start = function(state) {
-    if (this.tapeOn) {
+    if (this.deck[state.id]) {
         throw new Error("Tape is already on");
     }
 
-    this.tapeOn = true;
+    var tape = [];
+    tape.push({ start: true });
 
-    this.tape = [];
-    this.tape.push({ start: true });
+    this.deck[state.id] = tape;
 };
 
 TapeRecorder.prototype.stop = function(state) {
-    this.tapeOn = false;
+    var tape = this.deck[state.id];
 
-    this.tape.push({ stop: true });
-    this.box.push(this.tape);
-    this.tape = null;
+    tape.push({ stop: true });
+    this.box.push(tape);
+
+    delete this.deck[state.id];
 };
 
 TapeRecorder.prototype.onOpenTag = function(node) {
-    if (this.tapeOn) {
-        this.tape.push({ openTag: node });
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ openTag: node });
     }
 };
 
 TapeRecorder.prototype.onCloseTag = function(tag) {
-    if (this.tapeOn) {
-        this.tape.push({ closeTag: tag });
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ closeTag: tag });
     }
 };
 
 TapeRecorder.prototype.onText = function (text) {
-    if (this.tapeOn) {
-        this.tape.push({ text: text });
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ text: text });
     }
 };
 
