@@ -1,5 +1,4 @@
 {
-    "private": true,
     "name": "saxpath",
     "description": "XPath expression evaluator against a XML-SAX stream",
     "version": "0.5.1",
