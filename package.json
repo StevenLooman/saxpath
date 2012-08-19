@@ -1,8 +1,8 @@
 {
     "private": true,
     "name": "saxpath",
-    "description": "XXX",
-    "version": "0.0.1",
+    "description": "XPath expression evaluator against a XML-SAX stream",
+    "version": "0.5.0",
     "author": "Steven Looman <steven.looman@gmail.com>",
     "keywords": [ ],
     "licenses" : [
@@ -13,8 +13,7 @@
     ],
 
     "dependencies": {
-    	"sax": "0.4.2",
-	"xmldom": "0.1.11"
+    	"sax": "0.4.2"
     },
     "devDependencies": {
     	"pegjs": "0.7.0",
