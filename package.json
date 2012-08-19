@@ -2,7 +2,7 @@
     "private": true,
     "name": "saxpath",
     "description": "XPath expression evaluator against a XML-SAX stream",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "author": "Steven Looman <steven.looman@gmail.com>",
     "keywords": [ ],
     "licenses" : [
