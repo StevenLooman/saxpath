@@ -1,6 +1,6 @@
 SaXPath
 =======
-Simple XPath evaluator which runs against a SAX stream.
+Simple XPath evaluator which runs against a SAX stream. [![Build Status](https://secure.travis-ci.org/StevenLooman/saxpath.png)](http://travis-ci.org/StevenLooman/saxpath)
 
 Supported XPath construct as of writing are:
   - '/'-axis (child)
