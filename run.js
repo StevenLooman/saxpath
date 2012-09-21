@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
-var fs  = require('fs');
-var sax = require('sax');
-var xps = require('./lib');
+var blammo = require('blammo');
+var fs     = require('fs');
+var sax    = require('sax');
+var xps    = require('./lib');
 
 //var filename = 'test/bookstore.xml';
 var filename = 'test/inception.xml';
@@ -14,6 +15,7 @@ function onMatch(xml) {
 
 function main() {
     var saxParser = sax.createStream(true);
+
 //    var streamer  = new xps.SaXPath(saxParser, '/bookstore/book');
 //    var streamer  = new xps.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]');
 //    var streamer  = new xps.SaXPath(saxParser, '//book');
