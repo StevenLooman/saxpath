@@ -1,12 +1,12 @@
 function TapeRecorder() {
-    this.box = [];
-    this.deck = {};
+    this.box = [];  // we got a box full of tapes
+    this.deck = {}; // current tape in the deck
 }
 
 
 TapeRecorder.prototype.start = function(state) {
     if (this.deck[state.id]) {
-        throw new Error("Tape is already on");
+        throw new Error("Tape is already recording");
     }
 
     var tape = [];
