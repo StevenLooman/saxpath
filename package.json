@@ -12,7 +12,7 @@
     ],
 
     "dependencies": {
-        "sax": "0.4.2",
+        "sax": "0.5.4",
         "blammo": "0.4.2"
     },
     "devDependencies": {
@@ -29,7 +29,7 @@
         "node": ">= 0.6.0"
     },
     "scripts": {
-        "test": "mocha test/*js"
+        "test": "mocha --check-leaks test/*js"
     },
     "repository": {
         "type": "git",
