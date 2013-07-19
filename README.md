@@ -5,7 +5,7 @@ Simple XPath evaluator which runs against a SAX stream. [![Build Status](https:/
 Supported XPath construct as of writing are:
   - '/'-axis (child)
   - '//'-axis (self-or-descendant)
-  - node name tests, including namespaces
+  - node name tests, including namespaces (with wildcard support for both)
   - predicate test (@<attribute_name> = "<literal>")
 
 Inner workings
