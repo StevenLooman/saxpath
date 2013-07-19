@@ -230,4 +230,42 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should match node, namespace and attribute names with numbers and underscores in them', function(done) {
+        var fileStream = fs.createReadStream('test/numbers.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="foo"]/subnod3', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'subnod3');
+
+            done();
+        }
+    });
+
+    it('should match attributes values with numbers, underscores and spaces', function(done) {
+        var fileStream = fs.createReadStream('test/numbers.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="0 some_value"]/subnod3', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'subnod3');
+
+            done();
+        }
+    });
 });
