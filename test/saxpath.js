@@ -230,4 +230,78 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should match node, namespace and attribute names with numbers and underscores in them', function(done) {
+        var fileStream = fs.createReadStream('test/numbers.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="foo"]/subnod3', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'subnod3');
+
+            done();
+        }
+    });
+
+    it('should match attributes values with numbers, underscores and spaces', function(done) {
+        var fileStream = fs.createReadStream('test/numbers.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="0 some_value"]/subnod3', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            var tape = recorder.box[0];
+            assert.ok(tape.length > 0);
+            assert.equal(tape[1].openTag.name, 'subnod3');
+
+            done();
+        }
+    });
+
+    it('should throw a SyntaxError if a namespace starts with a number', function(done) {
+        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        try {
+            var streamer   = new saxpath.SaXPath(saxParser, '/0:test', recorder);
+            assert.fail(); // should not execute this instruction
+        } catch (err) {
+            assert.equal(err.name, 'SyntaxError');
+            done();
+        }
+    });
+
+    it('should be able to match nodes in /root/*/somenode', function(done) {
+        var fileStream = fs.createReadStream('test/wildcard.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '/root/*/somenode', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 3);
+
+            var tape;
+            var i;
+            for (i = 0; i < 3; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'somenode');
+            }
+
+            done();
+        }
+    });
 });

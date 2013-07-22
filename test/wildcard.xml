@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<node>
+		<somenode>foo</somenode>
+	</node>
+	<test>
+		<somenode>bar</somenode>
+	</test>
+	<node>
+		<somenode>baz</somenode>
+	</node>
+</root>
