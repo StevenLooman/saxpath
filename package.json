@@ -12,10 +12,10 @@
     ],
 
     "dependencies": {
-        "sax": "0.5.4",
         "blammo": "0.4.3"
     },
     "devDependencies": {
+        "sax": "0.5.4",
         "pegjs": "0.7.0",
         "mocha": "1.12.0",
         "mocha-lcov-reporter": "0.0.1"
