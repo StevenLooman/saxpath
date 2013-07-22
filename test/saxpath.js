@@ -269,53 +269,36 @@ describe('SaXPath', function() {
         }
     });
 
-    it('should be able to match nodes in /*store/book/*e', function(done) {
+    it('should throw a SyntaxError if a namespace starts with a number', function(done) {
         var fileStream = fs.createReadStream('test/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new saxpath.SaXPath(saxParser, '/*store/book/*e', recorder);
-        saxParser.on('end', testNodesRecorded);
-        fileStream.pipe(saxParser);
-
-        function testNodesRecorded() {
-            // 8 nodes have a name that ends with "e":
-            // 1 title node and 1 price node for each book, in this particular order
-            assert.equal(recorder.box.length, 8);
-
-            var tape;
-            var i;
-            for (i = 0; i < 8; ++i) {
-                tape = recorder.box[i];
-                assert.ok(tape.length > 0);
-
-                if (i % 2 === 0)
-                   assert.equal(tape[1].openTag.name, 'title');
-                else
-                   assert.equal(tape[1].openTag.name, 'price');
-            }
-
+        try {
+            var streamer   = new saxpath.SaXPath(saxParser, '/0:test', recorder);
+            assert.fail(); // should not execute this instruction
+        } catch (err) {
+            assert.equal(err.name, 'SyntaxError');
             done();
         }
     });
 
-    it('should be able to match nodes with wilcarded namespaces in //t*:node', function(done) {
-        var fileStream = fs.createReadStream('test/namespace.xml');
+    it('should be able to match nodes in /root/*/somenode', function(done) {
+        var fileStream = fs.createReadStream('test/wildcard.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
-        var streamer   = new saxpath.SaXPath(saxParser, '//t*:node', recorder);
-
+        var streamer   = new saxpath.SaXPath(saxParser, '/root/*/somenode', recorder);
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.equal(recorder.box.length, 1);
+            assert.equal(recorder.box.length, 3);
 
             var tape;
             var i;
-            for (i = 0; i < 1; ++i) {
+            for (i = 0; i < 3; ++i) {
                 tape = recorder.box[i];
                 assert.ok(tape.length > 0);
-                assert.equal(tape[1].openTag.name, 'test:node');
+                assert.equal(tape[1].openTag.name, 'somenode');
             }
 
             done();
