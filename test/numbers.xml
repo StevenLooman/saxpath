@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root xmlns:test="http://localhost/namespaces/test">
+	<nam3_spac3:nod3 special_attribut3_name="0 some_value">
+		<subnod3>
+			This is the content of a node with a number in its name.
+		</subnod3>
+	</nam3_spac3:nod3>
+
+	<nam3_spac3:nod3 special_attribut3_name="foo">
+		<subnod3>
+		</subnod3>
+	</nam3_spac3:nod3>
+</root>

@@ -13,7 +13,7 @@
 
     "dependencies": {
         "sax": "0.5.4",
-        "blammo": "0.4.3"
+        "blammo": "0.4.4"
     },
     "devDependencies": {
         "pegjs": "0.7.0",

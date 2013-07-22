@@ -6,6 +6,7 @@ Supported XPath construct as of writing are:
   - '/'-axis (child)
   - '//'-axis (self-or-descendant)
   - node name tests, including namespaces
+  - all nodes selector: '*'
   - predicate test (@<attribute_name> = "<literal>")
 
 Inner workings
