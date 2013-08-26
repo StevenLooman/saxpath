@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var blammo = require('blammo');
 var fs     = require('fs');
 var sax    = require('sax');
 var xps    = require('./lib');

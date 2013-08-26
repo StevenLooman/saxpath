@@ -12,7 +12,6 @@
     ],
 
     "dependencies": {
-        "blammo": "0.4.4"
     },
     "devDependencies": {
         "sax": "0.5.4",
