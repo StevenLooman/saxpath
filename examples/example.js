@@ -1,8 +1,8 @@
-var saxpath = require('./lib');
+var saxpath = require('../lib');
 var fs      = require('fs');
 var sax     = require('sax');
 
-var fileStream = fs.createReadStream('test/bookstore.xml');
+var fileStream = fs.createReadStream('../test/bookstore.xml');
 var saxParser  = sax.createStream(true);
 var streamer   = new saxpath.SaXPath(saxParser, '//book');
 
