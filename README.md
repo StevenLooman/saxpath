@@ -8,7 +8,7 @@ Supported XPath construct as of writing are:
   - node name tests, including namespaces
   - all nodes selector: '*'
   - predicate test:
-    - @<attribute_name> = "<literal>"
+    - @attribute_name = "literal"
 
 Usage
 -----
