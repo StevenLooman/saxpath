@@ -51,5 +51,14 @@ TapeRecorder.prototype.onText = function (text) {
     }
 };
 
+TapeRecorder.prototype.onCDATA = function (cdata) {
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ cdata: cdata });
+    }
+};
+
 
 module.exports = TapeRecorder;
