@@ -305,6 +305,31 @@ describe('SaXPath', function() {
         }
     });
 
+    it('should be able to match namespaced nodes with wildcard //test:*', function(done) {
+        var fileStream = fs.createReadStream('test/namespace.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//test:*', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            debugger;
+
+            assert.equal(recorder.box.length, 1);
+
+            var tape;
+            var i;
+            for (i = 0; i < 1; ++i) {
+                tape = recorder.box[i];
+                assert.ok(tape.length > 0);
+                assert.equal(tape[1].openTag.name, 'test:node');
+            }
+
+            done();
+        }
+    });
+
     it('should be able to find CDATA values', function(done) {
         var fileStream = fs.createReadStream('test/cdata.xml');
         var recorder   = new TapeRecorder();

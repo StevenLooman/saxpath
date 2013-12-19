@@ -7,11 +7,12 @@ Supported XPath construct as of writing are:
   - '//'-axis (self-or-descendant)
   - node name tests, including namespaces
   - all nodes selector: '*'
-  - predicate test (@<attribute_name> = "<literal>")
+  - predicate test:
+    - @attribute_name = "literal"
 
 Usage
 -----
-Instanciate a new SaXPath object with `new saxpath.SaXPath(saxParser, xpath [, recorder])`. Then pipe a stream into it and SaXPath will emit `match` events on each XPath match. The emitted data is managed by the recorder, which by default recreates on the fly an XML string from the SAX events.
+Instantiate a new SaXPath object with `new saxpath.SaXPath(saxParser, xpath [, recorder])`. Then pipe a stream into it and SaXPath will emit `match` events on each XPath match. The emitted data is managed by the recorder, which by default recreates on the fly as a (XML) string from the SAX events.
 
 Example
 -------
@@ -76,8 +77,8 @@ Check out the `examples` directory for usage examples.
 
 Inner workings
 --------------
-A state machine is built which the SAX-nodes are tested against. If a node matches, the state machine progresses.
+A state machine is built which the SAX-events are tested against. If an event matches, the state machine progresses.
 
 For self-or-descendant-nodes, the state machine is forked and earch fork (including the parent) is tested against the SAX-nodes. This ensures all nodes are matched. See `test/saxpath.js` and `test/inception.xml` for an example.
 
-Each SAX event emitted by the `saxParser` is transmitted to a `recorder`, which is in charge of handling the data if it matches the XPath. Check `examples/custom-recorder.js` to see how to handle them.
+Each SAX event emitted by the `saxParser` is transmitted to a `recorder`, which is in charge of handling the data if it matches the XPath. Check `examples/custom-recorder.js` to see how to create a custom recorder.
