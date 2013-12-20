@@ -310,7 +310,6 @@ describe('SaXPath', function() {
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//test:*', recorder);
-
         saxParser.on('end', testNodesRecorded);
         fileStream.pipe(saxParser);
 
@@ -327,6 +326,22 @@ describe('SaXPath', function() {
                 assert.equal(tape[1].openTag.name, 'test:node');
             }
 
+            done();
+        }
+    });
+
+    it('should be able to find CDATA values', function(done) {
+        var fileStream = fs.createReadStream('test/cdata.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '/root/node', recorder);
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 3);
+            assert.equal(recorder.box[0][2].cdata, 'Sample data value');
+            assert.equal(recorder.box[2][2].cdata, 'Other CDATA value');
             done();
         }
     });

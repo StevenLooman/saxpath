@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<node><![CDATA[Sample data value]]></node>
+	<node>Nothing interesting here</node>
+	<node><![CDATA[Other CDATA value]]></node>
+</root>
