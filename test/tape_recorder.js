@@ -51,12 +51,30 @@ TapeRecorder.prototype.onText = function (text) {
     }
 };
 
+TapeRecorder.prototype.onOpenCDATA = function() {
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ openCData: true });
+    }
+};
+
 TapeRecorder.prototype.onCDATA = function (cdata) {
     var tape;
     var id;
     for (id in this.deck) {
         tape = this.deck[id];
         tape.push({ cdata: cdata });
+    }
+};
+
+TapeRecorder.prototype.onCloseCDATA = function() {
+    var tape;
+    var id;
+    for (id in this.deck) {
+        tape = this.deck[id];
+        tape.push({ closeCData: true });
     }
 };
 

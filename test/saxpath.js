@@ -314,8 +314,6 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            debugger;
-
             assert.equal(recorder.box.length, 1);
 
             var tape;
@@ -339,9 +337,16 @@ describe('SaXPath', function() {
         fileStream.pipe(saxParser);
 
         function testNodesRecorded() {
-            assert.equal(recorder.box.length, 3);
-            assert.equal(recorder.box[0][2].cdata, 'Sample data value');
-            assert.equal(recorder.box[2][2].cdata, 'Other CDATA value');
+            assert.equal(recorder.box.length, 3); // 3 matches on /root/node
+
+            assert.equal(recorder.box[0][2].openCData, true);
+            assert.equal(recorder.box[0][3].cdata, 'Sample data value');
+            assert.equal(recorder.box[0][4].closeCData, true);
+
+            assert.equal(recorder.box[2][2].openCData, true);
+            assert.equal(recorder.box[2][3].cdata, 'Other CDATA value');
+            assert.equal(recorder.box[2][4].closeCData, true);
+
             done();
         }
     });
