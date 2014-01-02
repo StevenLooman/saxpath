@@ -2,3 +2,4 @@
 .sonar/
 coverage/
 node_modules/
+lib-cov/
