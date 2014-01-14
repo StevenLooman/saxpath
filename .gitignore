@@ -1,5 +1,6 @@
 *.swp
 .sonar/
 coverage/
+coverage_unit.html
 node_modules/
 lib-cov/

@@ -3,7 +3,7 @@ var TapeRecorder = require('./tape_recorder');
 
 var fs      = require('fs');
 var sax     = require('sax');
-var saxpath = require('..');
+var saxpath = process.env.JS_COV ? require('../lib-cov') : require('../lib');
 
 
 describe('SaXPath', function() {
