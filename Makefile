@@ -25,4 +25,4 @@ sonar: node_modules lib-cov
 	@sonar-runner -Dsonar.projectVersion=$(VERSION)
 
 clean:
-	@rm -rf node_mdules lib-cov coverage coverage_unit.html
+	@rm -rf node_modules lib-cov coverage coverage_unit.html
