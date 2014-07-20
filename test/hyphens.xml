@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<root>
+	<node-1>
+		<subnode-1>
+			This is the content of a node with a hypen in its name.
+		</subnode-1>
+	</node-1>
+
+	<node-1 attr1="value1">
+		<subnode-1 />
+	</node-1>
+</root>

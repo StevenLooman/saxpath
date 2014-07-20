@@ -350,4 +350,80 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should match //node-1', function(done) {
+        var fileStream = fs.createReadStream('test/hyphens.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//node-1', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 2);
+
+            assert.equal(recorder.box[0][1].openTag.name, 'node-1');
+            assert.equal(recorder.box[1][1].openTag.name, 'node-1');
+
+            done();
+        }
+    });
+
+    it('should match //test-ns:node-1', function(done) {
+        var fileStream = fs.createReadStream('test/namespace-hyphens.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//test-ns:node-1', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 2);
+
+            assert.equal(recorder.box[0][1].openTag.name, 'test-ns:node-1');
+            assert.equal(recorder.box[1][1].openTag.name, 'test-ns:node-1');
+
+            done();
+        }
+    });
+
+    it('should match //node.1', function(done) {
+        var fileStream = fs.createReadStream('test/dots.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//node.1', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 2);
+
+            assert.equal(recorder.box[0][1].openTag.name, 'node.1');
+            assert.equal(recorder.box[1][1].openTag.name, 'node.1');
+
+            done();
+        }
+    });
+
+    it('should match //test.ns:node.1', function(done) {
+        var fileStream = fs.createReadStream('test/namespace-dots.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//test.ns:node.1', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 2);
+
+            assert.equal(recorder.box[0][1].openTag.name, 'test.ns:node.1');
+            assert.equal(recorder.box[1][1].openTag.name, 'test.ns:node.1');
+
+            done();
+        }
+    });
 });
