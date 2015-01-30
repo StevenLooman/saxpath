@@ -16,7 +16,7 @@
     "devDependencies": {
         "sax": "0.5.4",
         "pegjs": "0.7.0",
-        "mocha": "1.12.0",
+        "mocha": "2.1.0",
         "jscover": "0.2.4",
         "mocha-lcov-reporter": "0.0.1"
     },
@@ -29,7 +29,7 @@
         "node": ">= 0.8.0"
     },
     "scripts": {
-        "test": "mocha --check-leaks test/*js"
+        "test": "node_modules/.bin/mocha --check-leaks test/*js"
     },
     "repository": {
         "type": "git",
