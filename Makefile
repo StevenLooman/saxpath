@@ -3,7 +3,7 @@ VERSION=$(shell grep '"version"' package.json | sed 's/    "version": "\(.*\)",/
 test: test-unit
 
 test-unit: node_modules
-	@./node_modules/.bin/mocha test --reporter dot
+	@./node_modules/.bin/mocha test --reporter dot --check-leaks
 
 test-unit-cov: node_modules lib-cov
 	@JS_COV=1 ./node_modules/.bin/mocha test --reporter html-cov > coverage_unit.html
