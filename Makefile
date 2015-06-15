@@ -2,10 +2,10 @@ VERSION=$(shell grep '"version"' package.json | sed 's/    "version": "\(.*\)",/
 
 test: test-unit
 
-test-unit: node_modules
+test-unit: node_modules lib/xpath_parser.js
 	@./node_modules/.bin/mocha test --reporter dot --check-leaks
 
-test-unit-cov: node_modules lib-cov
+test-unit-cov: node_modules lib/xpath_parser.js lib-cov
 	@JS_COV=1 ./node_modules/.bin/mocha test --reporter html-cov > coverage_unit.html
 	@open coverage_unit.html
 
@@ -26,3 +26,6 @@ sonar: node_modules lib-cov
 
 clean:
 	@rm -rf node_modules lib-cov coverage coverage_unit.html
+
+lib/xpath_parser.js: lib/xpath_parser.pegjs
+	@./node_modules/.bin/pegjs lib/xpath_parser.pegjs lib/xpath_parser.js
