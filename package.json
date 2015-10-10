@@ -15,7 +15,7 @@
     },
     "devDependencies": {
         "sax": "1.1.1",
-        "pegjs": "0.7.0",
+        "pegjs": "0.9.0",
         "mocha": "2.1.0",
         "jscover": "0.2.4",
         "mocha-lcov-reporter": "0.0.1",
