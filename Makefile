@@ -29,3 +29,6 @@ clean:
 
 lib/xpath_parser.js: lib/xpath_parser.pegjs
 	@./node_modules/.bin/pegjs lib/xpath_parser.pegjs lib/xpath_parser.js
+
+jshint:
+	@node_modules/.bin/jshint lib/child_state.js lib/saxpath.js lib/self_or_descendant_state.js lib/start_state.js lib/state.js lib/xml_recorder.js

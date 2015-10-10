@@ -18,7 +18,8 @@
         "pegjs": "0.7.0",
         "mocha": "2.1.0",
         "jscover": "0.2.4",
-        "mocha-lcov-reporter": "0.0.1"
+        "mocha-lcov-reporter": "0.0.1",
+        "jshint": "2.8.0"
     },
     "directories": {
         "lib": "./lib",
