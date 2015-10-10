@@ -1,7 +1,7 @@
 {
     "name": "saxpath",
     "description": "XPath expression evaluator against a XML-SAX stream",
-    "version": "0.6.3-dev",
+    "version": "0.6.3",
     "author": "Steven Looman <steven.looman@gmail.com>",
     "keywords": [ "xml", "sax", "xpath", "parser", "evaluator" ],
     "licenses" : [
