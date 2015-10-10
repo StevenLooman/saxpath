@@ -8,7 +8,7 @@ var saxpath = process.env.JS_COV ? require('../lib-cov') : require('../lib');
 
 describe('SaXPath', function() {
     it('should match /bookstore', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore', recorder);
@@ -28,7 +28,7 @@ describe('SaXPath', function() {
     });
 
     it('should match /bookstore/book', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book', recorder);
@@ -52,7 +52,7 @@ describe('SaXPath', function() {
     });
 
     it('should match /bookstore/book[@category="COOKING"]', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/book[@category="COOKING"]', recorder);
@@ -76,7 +76,7 @@ describe('SaXPath', function() {
     });
 
     it('should not match /bookstore/title', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/bookstore/title', recorder);
@@ -91,7 +91,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //book', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book', recorder);
@@ -115,7 +115,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //book[@category="COOKING"]', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book[@category="COOKING"]', recorder);
@@ -136,7 +136,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //book/title', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book/title', recorder);
@@ -160,7 +160,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //book//title', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//book//title', recorder);
@@ -184,7 +184,7 @@ describe('SaXPath', function() {
     });
 
     it('should match all nested nodes in //node', function(done) {
-        var fileStream = fs.createReadStream('test/inception.xml');
+        var fileStream = fs.createReadStream('test/data/inception.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//node', recorder);
@@ -208,7 +208,7 @@ describe('SaXPath', function() {
     });
 
     it('should be able to match nodes with namespaces in //test:node', function(done) {
-        var fileStream = fs.createReadStream('test/namespace.xml');
+        var fileStream = fs.createReadStream('test/data/namespace.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//test:node', recorder);
@@ -232,7 +232,7 @@ describe('SaXPath', function() {
     });
 
     it('should match node, namespace and attribute names with numbers and underscores in them', function(done) {
-        var fileStream = fs.createReadStream('test/numbers.xml');
+        var fileStream = fs.createReadStream('test/data/numbers.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="foo"]/subnod3', recorder);
@@ -251,7 +251,7 @@ describe('SaXPath', function() {
     });
 
     it('should match attributes values with numbers, underscores and spaces', function(done) {
-        var fileStream = fs.createReadStream('test/numbers.xml');
+        var fileStream = fs.createReadStream('test/data/numbers.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//nam3_spac3:nod3[@special_attribut3_name="0 some_value"]/subnod3', recorder);
@@ -270,7 +270,7 @@ describe('SaXPath', function() {
     });
 
     it('should throw a SyntaxError if a namespace starts with a number', function(done) {
-        var fileStream = fs.createReadStream('test/bookstore.xml');
+        var fileStream = fs.createReadStream('test/data/bookstore.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         try {
@@ -283,7 +283,7 @@ describe('SaXPath', function() {
     });
 
     it('should be able to match nodes in /root/*/somenode', function(done) {
-        var fileStream = fs.createReadStream('test/wildcard.xml');
+        var fileStream = fs.createReadStream('test/data/wildcard.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/root/*/somenode', recorder);
@@ -306,7 +306,7 @@ describe('SaXPath', function() {
     });
 
     it('should be able to match namespaced nodes with wildcard //test:*', function(done) {
-        var fileStream = fs.createReadStream('test/namespace.xml');
+        var fileStream = fs.createReadStream('test/data/namespace.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//test:*', recorder);
@@ -329,7 +329,7 @@ describe('SaXPath', function() {
     });
 
     it('should be able to find CDATA values', function(done) {
-        var fileStream = fs.createReadStream('test/cdata.xml');
+        var fileStream = fs.createReadStream('test/data/cdata.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '/root/node', recorder);
@@ -352,7 +352,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //node-1', function(done) {
-        var fileStream = fs.createReadStream('test/hyphens.xml');
+        var fileStream = fs.createReadStream('test/data/hyphens.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//node-1', recorder);
@@ -371,7 +371,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //test-ns:node-1', function(done) {
-        var fileStream = fs.createReadStream('test/namespace-hyphens.xml');
+        var fileStream = fs.createReadStream('test/data/namespace-hyphens.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//test-ns:node-1', recorder);
@@ -390,7 +390,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //node.1', function(done) {
-        var fileStream = fs.createReadStream('test/dots.xml');
+        var fileStream = fs.createReadStream('test/data/dots.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//node.1', recorder);
@@ -409,7 +409,7 @@ describe('SaXPath', function() {
     });
 
     it('should match //test.ns:node.1', function(done) {
-        var fileStream = fs.createReadStream('test/namespace-dots.xml');
+        var fileStream = fs.createReadStream('test/data/namespace-dots.xml');
         var recorder   = new TapeRecorder();
         var saxParser  = sax.createStream(true);
         var streamer   = new saxpath.SaXPath(saxParser, '//test.ns:node.1', recorder);
