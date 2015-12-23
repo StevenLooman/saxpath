@@ -426,4 +426,22 @@ describe('SaXPath', function() {
             done();
         }
     });
+
+    it('should match escaped values', function(done) {
+        var fileStream = fs.createReadStream('test/data/attr_amp.xml');
+        var recorder   = new TapeRecorder();
+        var saxParser  = sax.createStream(true);
+        var streamer   = new saxpath.SaXPath(saxParser, '//node[@attr="&"]', recorder);
+
+        saxParser.on('end', testNodesRecorded);
+        fileStream.pipe(saxParser);
+
+        function testNodesRecorded() {
+            assert.equal(recorder.box.length, 1);
+
+            assert.equal(recorder.box[0][1].openTag.name, 'node');
+
+            done();
+        }
+    });
 });
